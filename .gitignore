@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 .env
 project_plan.txt
+data/
