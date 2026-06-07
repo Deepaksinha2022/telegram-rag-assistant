@@ -1,31 +1,52 @@
 import chromadb
 from sentence_transformers import SentenceTransformer
 import google.generativeai as genai
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
-
-genai.configure(api_key="gemini_api_key")
-
-gemini_model = genai.GenerativeModel("gemini-2.5-flash")
-
-client = chromadb.PersistentClient(path="./chroma_db")
-
-collection = client.get_collection("transformer_paper")
-
-question = input("Ask a question: ")
-
-question_embedding = embedding_model.encode(question).tolist()
-
-results = collection.query(
-    query_embeddings=[question_embedding],
-    n_results=3
+# Configure Gemini FIRST
+genai.configure(
+    api_key=os.getenv("api_key")
 )
 
-context = "\n\n".join(results["documents"][0])
-print(context[:1000])
+# Load models once
+embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+gemini_model = genai.GenerativeModel("gemini-2.5-flash")
 
-prompt = f"""
-Answer the question using ONLY the provided context.
+# ChromaDB client
+client = chromadb.PersistentClient(path="./chroma_db")
+
+
+def ask_question(collection_name, question):
+
+    collection = client.get_collection(collection_name)
+
+    # Create question embedding
+    question_embedding = embedding_model.encode(
+        question
+    ).tolist()
+
+    # Retrieve top chunks
+    results = collection.query(
+        query_embeddings=[question_embedding],
+        n_results=10
+    )
+    print("\nRetrieved Documents:\n")
+
+    for doc in results["documents"][0]:
+        print(doc[:300])
+        print("-" * 50)
+    context = "\n\n".join(
+        results["documents"][0]
+    )
+
+    prompt = f"""
+Answer ONLY using the provided context.
+
+If the answer is not present in the context,
+say:
+"I cannot find that information in the document."
 
 Context:
 {context}
@@ -36,7 +57,27 @@ Question:
 Answer:
 """
 
-response = gemini_model.generate_content(prompt)
+    response = gemini_model.generate_content(
+        prompt
+    )
 
-print("\nAnswer:\n")
-print(response.text)
+    return response.text
+
+
+if __name__ == "__main__":
+
+    collection_name = input(
+        "Enter collection name: "
+    )
+
+    question = input(
+        "Ask a question: "
+    )
+
+    answer = ask_question(
+        collection_name,
+        question
+    )
+
+    print("\nAnswer:\n")
+    print(answer)

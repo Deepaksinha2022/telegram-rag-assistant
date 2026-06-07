@@ -2,8 +2,16 @@ from sentence_transformers import SentenceTransformer
 from pypdf import PdfReader
 from sklearn.metrics.pairwise import cosine_similarity
 import google.generativeai as genai
-GEMINI_API_KEY = ""
-genai.configure(api_key=GEMINI_API_KEY)
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+genai.configure(
+    api_key=os.getenv("api_key")
+)
+
 gemini_model = genai.GenerativeModel("gemini-2.5-flash")
 print("Loading model...")
 model = SentenceTransformer("all-MiniLM-L6-v2")

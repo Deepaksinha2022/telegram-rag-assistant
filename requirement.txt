@@ -1,0 +1,8 @@
+python-telegram-bot
+google-generativeai
+chromadb
+sentence-transformers
+pypdf
+python-dotenv
+scikit-learn
+torch
