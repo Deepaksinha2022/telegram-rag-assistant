@@ -1,39 +1,60 @@
 # Telegram RAG Assistant
 
-A Retrieval-Augmented Generation (RAG) application built using:
+## Overview
 
-* Python
-* Gemini API
-* ChromaDB
-* Sentence Transformers
-* Telegram Bot API
+A Telegram-based AI assistant that allows users to upload PDF documents, automatically indexes them using vector embeddings, and answers questions using Retrieval-Augmented Generation (RAG).
 
 ## Features
 
-* PDF document ingestion
-* Text chunking
-* Embedding generation
+* Upload PDFs through Telegram
+* Automatic PDF ingestion
+* ChromaDB vector database
+* Multi-document collections
+* Switch between collections
 * Semantic search
-* Vector database storage with ChromaDB
-* Retrieval-Augmented Generation (RAG)
-* Gemini-powered question answering
+* Gemini-powered responses
 
-## Project Workflow
-
-PDF → Chunks → Embeddings → ChromaDB → Retrieval → Gemini → Answer
-
-## Technologies
+## Tech Stack
 
 * Python
-* Gemini 2.5 Flash
-* Sentence Transformers
+* Telegram Bot API
+* Gemini API
 * ChromaDB
+* Sentence Transformers
 * PyPDF
+
+## Architecture
+
+PDF Upload
+→ Text Extraction
+→ Chunking
+→ Embeddings
+→ ChromaDB
+→ Retrieval
+→ Gemini
+→ Telegram Response
+
+## Commands
+
+/start
+
+/collections
+
+/use <collection_name>
+
+## Example Workflow
+
+1. Upload a PDF.
+2. Bot automatically indexes the document.
+3. Run `/collections` to view available documents.
+4. Run `/use document_name`.
+5. Ask questions about the document.
 
 ## Future Improvements
 
-* Telegram + RAG integration
-* Multi-document support
-* Conversation memory
-* Web search tools
-* Agent workflow
+* Better PDF parsing
+* User-specific collections
+* Web interface
+* OCR support
+* Cloud deployment
+
