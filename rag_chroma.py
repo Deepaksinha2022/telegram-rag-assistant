@@ -7,7 +7,7 @@ load_dotenv()
 
 # Configure Gemini FIRST
 genai.configure(
-    api_key=os.getenv("api_key")
+    api_key=os.getenv("GEMINI_API_KEY")
 )
 
 # Load models once

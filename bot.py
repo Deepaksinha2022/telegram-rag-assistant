@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-TOKEN = os.getenv("TOKEN")
+TOKEN = os.getenv("TELEGRAM_TOKEN")
 
 # Active document collection
 ACTIVE_COLLECTION = "The-Metamorphosis-Franz-Kafka"
