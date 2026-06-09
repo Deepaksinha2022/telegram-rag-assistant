@@ -11,7 +11,6 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 # ChromaDB client
 client = chromadb.PersistentClient(path="./chroma_db")
 
-
 def ingest_pdf(pdf_path):
     print(f"\nProcessing: {pdf_path}")
 

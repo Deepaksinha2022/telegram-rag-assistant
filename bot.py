@@ -73,7 +73,9 @@ async def collections(update, context):
     client = chromadb.PersistentClient(
     path="./chroma_db"
 )
-
+    for c in client.list_collections():
+        print(c.name)
+    print("Current working directory:", os.getcwd())
     collections = client.list_collections()
 
     message = "Available Collections:\n\n"
